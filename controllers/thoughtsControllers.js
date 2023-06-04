@@ -68,3 +68,71 @@ const updateThought = async (req, res) => {
      }
    };
 
+   // delete a thought based on the given id
+// and update the user document
+const deleteThought = async (req, res) => {
+  try {
+    const deletedThought = await Thought.findOneAndDelete({
+      _id: req.params.thoughtId,
+    });
+    if (!deletedThought) {
+      return res.status(404).json({ error: "No thought found with that id" });
+    }
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: req.params.userId },
+      { $pull: { thoughts: req.params.thoughtId } },
+      { new: true }
+    );
+    if (!updatedUser) {
+      return res.json({ error: "No user found with that id" });
+    }
+    return res.json({ message: "Thought deleted" });
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// add reaction to a thought
+const addReaction = async (req, res) => {
+  try {
+    const updatedThought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $addToSet: { reactions: req.body } },
+      { new: true, runValidators: true }
+    );
+    if (!updatedThought) {
+      return res.status(404).json({ error: "No thought found with that id" });
+    }
+    res.json(updatedThought);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+// remove reaction from a thought
+const removeReaction = async (req, res) => {
+  try {
+    const updatedThought = await Thought.findOneAndUpdate(
+      { _id: req.params.thoughtId },
+      { $pull: { reactions: { reactionId: req.params.reactionId } } },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedThought) {
+      return res.status(404).json({ error: "No Thought found with that id" });
+    }
+    return res.json(updatedThought);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  getThoughts,
+  getSingleThought,
+  createThought,
+  updateThought,
+  deleteThought,
+  addReaction,
+  removeReaction,
+};
