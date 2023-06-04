@@ -68,4 +68,3 @@ const updateThought = async (req, res) => {
      }
    };
 
-   
