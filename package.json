@@ -1,0 +1,27 @@
+{
+  "name": "social-network-api",
+  "version": "1.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "description": "",
+  "homepage": "https://github.com/elliechayo/Social-Network-API#readme",
+  "keywords": [],
+  "license": "ISC",
+  "main": "index.js",
+  "packages": {},
+  "bugs": {
+    "url": "https://github.com/elliechayo/Social-Network-API/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elliechayo/Social-Network-API.git"
+  },
+  "scripts": {
+    "start": "node server"
+  },
+  "dependencies": {
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "mongoose": "^7.2.2"
+  }
+}
